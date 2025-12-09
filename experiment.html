@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My experiment</title>
+
+    <!-- jsPsych core -->
+    <script src="https://unpkg.com/jspsych@8.2.2"></script>
+
+    <!-- Plugins -->
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response"></script>
+    <link
+      href="https://unpkg.com/jspsych@8.2.2/css/jspsych.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+
+  <body></body>
+
+  <script>
+    /**********************
+     *  INIT              *
+     **********************/
+
+    var jsPsych = initJsPsych();
+    var subject_id = jsPsych.randomization.randomID(8);
+    jsPsych.data.addProperties({ subject_id: subject_id });
+
+    var timeline = [];
+
+    /**********************
+     *  WELCOME + INSTR   *
+     **********************/
+
+    timeline.push({
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus:
+        "Thank you for agreeing to participate in this experiment.<br><br>Press any key to see the instructions.",
+    });
+
+    timeline.push({
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: `
+        <p>In this experiment, you will see lists of phrases in different sections.</p>
+        <p>After each list, you will answer at most 5 YES/NO questions about what you just saw.</p>
+        <p>The experiment should take about 25 minutes.</p>
+        <p>Press any key to begin.</p>
+      `,
+      post_trial_gap: 100,
+    });
+
+    /**********************
+     *       STIMULI      *
+     **********************/
+
+    var study_items = [
+      {
+        section: 1,
+        list_id: 1,
+        list_html: `
+          <div>
+            <p><strong>Memorize the following list (List Length: Section 1):</strong></p>
+            <p>The actor is in the airport, The chef is in the attic, The coach is in the bank, The cowboy is in the
+barn, The dancer is in the castle, The detective is in the church, The doctor is in the clinic, The
+engineer is in the factory, The farmer is in the garage, The gardener is in the hallway,
+</p>
+          </div>
+        `,
+        q1_html: `
+          <p>Is the actor in the airport?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q1_correct: "y",
+        q2_html: `
+          <p> Is the chef in the attic?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q2_correct: "y",
+        q3_html: `
+          <p>Is the coach in the bank?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q3_correct: "y",
+        q4_html: `
+          <p>Is the cowboy in the barn?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q4_correct: "y",
+        q5_html: `
+          <p> Is the dancer in the castle?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q5_correct: "y",
+        q6_html: `
+          <p> Is the detective in the church?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q6_correct: "y",
+        q7_html: `
+          <p> Is the doctor in the clinic?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q7_correct: "y",
+        q8_html: `
+          <p> Is the engineer in the factory?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q8_correct: "y",
+        q9_html: `
+          <p> Is the farmer in the garage?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q9_correct: "y",
+        q10_html: `
+          <p>  Is the gardener in the hallway?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q10_correct: "y",
+      },
+      {
+        section: 2,
+        list_id: 2,
+        list_html: `
+          <div>
+            <p><strong>Memorize the following list (List Length: Section 2):</strong></p>
+            <p>The actor is in the airport, The chef is in the attic, The coach is in the bank, The cowboy is in the
+barn, The dancer is in the castle, The detective is in the church, The doctor is in the clinic, The
+engineer is in the factory, The farmer is in the garage, The gardener is in the hallway, The hippie is in the hotel, The inventor is in the kitchen, The judge is in the laboratory, The maid is in the library, The musician is in the museum,
+</p>
+          </div>
+        `,
+        q1_html: `
+          <p>Is the actor in the pharmacy?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q1_correct: "n",
+        q2_html: `
+          <p>  Is the chef in the zoo?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q2_correct: "n",
+        q3_html: `
+          <p>Is the coach in the mall?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q3_correct: "n",
+        q4_html: `
+          <p>Is the cowboy in the station?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q4_correct: "n",
+        q5_html: `
+          <p> Is the dancer in the restaurant?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q5_correct: "n",
+        q6_html: `
+          <p> Is the detective in the hospital?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q6_correct: "n",
+        q7_html: `
+          <p>Is the doctor in the cinema?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q7_correct: "n",
+        q8_html: `
+          <p> Is the engineer in the beach?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q8_correct: "n",
+        q9_html: `
+          <p> Is the hippie in the studio?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q9_correct: "n",
+        q10_html: `
+          <p>Is the judge in the school?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q10_correct: "n",
+      },
+      {
+        section: 3,
+        list_id: 3,
+        list_html: `
+          <div>
+            <p><strong>Memorize the following list (List Length: Section 3):</strong></p>
+            <p>The detective is in the church, The doctor is in the clinic, The engineer is in the factory, The farmer is in the garage, The gardener is in the hallway, The hippie is in the hotel, The inventor is in the kitchen, The judge is in the laboratory, The maid is in the library, The musician is in the museum, The pilot is in the nightclub, The pirate is in the office, The queen is
+in the park, The scientist is in the prison, The sheriff is in the school, The soldier is in the stadium,The spy is in the studio, The teacher is in the temple, The tourist is in the theater, The accountant is in the beach,
+</p>
+          </div>
+        `,
+        q1_html: `
+          <p>Is the pilot in the nightclub?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q1_correct: "y",
+        q2_html: `
+          <p> Is the pirate in the office?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q2_correct: "y",
+        q3_html: `
+          <p>Is the queen in the park?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q3_correct: "y",
+        q4_html: `
+          <p>Is the scientist in the prison?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q4_correct: "y",
+        q5_html: `
+          <p> Is the sheriff in the school?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q5_correct: "y",
+        q6_html: `
+          <p>  Is the soldier in the stadium?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q6_correct: "y",
+        q7_html: `
+          <p>Is the spy in the studio?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q7_correct: "y",
+        q8_html: `
+          <p>Is the teacher in the temple?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q8_correct: "y",
+        q9_html: `
+          <p> Is the tourist in the theater?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q9_correct: "y",
+        q10_html: `
+          <p>Is the accountant in the beach?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q10_correct: "y",
+      },
+      {
+        section: 4,
+        list_id: 4,
+        list_html: `
+          <div>
+            <p><strong>Memorize the following list (List Length: Section 4):</strong></p>
+            <p>The farmer is in the garage, The gardener is in the hallway, The hippie is in the hotel, The inventor is in the kitchen, The judge is in the laboratory, The maid is in the library,
+The musician is in the museum, The pilot is in the nightclub, The pirate is in the office, The queen is in the park, The scientist is in the prison, The sheriff is in the school, The soldier is in the stadium, The spy is in the studio, The teacher is in the temple, The tourist is in the theater, The accountant is in the beach, The artist is in the cinema, The dentist is in the hospital, The nurse is in the restaurant, The writer is in the station, The barista is in the mall, The firefighter is in the zoo, The lawyer is in the pharmacy, The athlete is in the gym
+</p>
+          </div>
+        `,
+        q1_html: `
+          <p>Is the barista in the mall?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q1_correct: "y",
+        q2_html: `
+          <p> Is the firefighter in the zoo?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q2_correct: "y",
+        q3_html: `
+          <p>Is the lawyer in the pharmacy?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q3_correct: "y",
+        q4_html: `
+          <p>Is the athlete in the gym?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q4_correct: "y",
+        q5_html: `
+          <p> Is the actor in the pharmacy?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q5_correct: "n",
+        q6_html: `
+          <p> Is the chef in the zoo?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q6_correct: "n",
+        q7_html: `
+          <p>Is the coach in the mall?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q7_correct: "n",
+        q8_html: `
+          <p>Is the cowboy in the station?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q8_correct: "n",
+        q9_html: `
+          <p> Is the dancer in the restaurant?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q9_correct: "n",
+        q10_html: `
+          <p>Is the detective in the hospital?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q10_correct: "n",
+      },
+      {
+        section: 5,
+        list_id: 5,
+        list_html: `
+          <div>
+            <p><strong>Memorize the following list (List Length: Section 5):</strong></p>
+            <p>The actor is in the airport, The chef is in the attic, The coach is in the bank, The cowboy is in the
+barn, The dancer is in the castle, The detective is in the church, The doctor is in the clinic, The
+engineer is in the factory, The farmer is in the garage, The gardener is in the hallway, The hippie is in the hotel, The inventor is in the kitchen, The judge is in the laboratory, The maid is in the library, The musician is in the museum, The pilot is in the nightclub, The pirate is in the office, The queen is in the park, The scientist is in the prison, The sheriff is in the school, The soldier is in the stadium, The spy is in the studio, The teacher is in the temple, The tourist is in the theater, The accountant is in the beach, The artist is in the cinema, The dentist is in the hospital, The nurse is in the restaurant The writer is in the station, The barista is in the mall,
+</p>
+          </div>
+        `,
+        q1_html: `
+          <p>Is the actor in the airport?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q1_correct: "y",
+        q2_html: `
+          <p>Is the chef in the attic?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q2_correct: "y",
+        q3_html: `
+          <p>Is the coach in the bank?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q3_correct: "y",
+        q4_html: `
+          <p>Is the cowboy in the barn?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q4_correct: "y",
+        q5_html: `
+          <p>Is the dancer in the castle?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q5_correct: "y",
+        q6_html: `
+          <p> Is the detective in the church?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q6_correct: "y",
+        q7_html: `
+          <p>Is the doctor in the clinic?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q7_correct: "y",
+        q8_html: `
+          <p>Is the engineer in the factory?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q8_correct: "y",
+        q9_html: `
+          <p> Is the farmer in the garage?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q9_correct: "y",
+        q10_html: `
+          <p>Is the gardener in the hallway?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q10_correct: "y",
+      },
+      {
+        section: 6,
+        list_id: 6,
+        list_html: `
+          <div>
+            <p><strong>Memorize the following list (List Strength: Section 1):</strong></p>
+            <p>The actor is in the airport, The actor is in the airport, The actor is in the airport, The actor is in the airport, The actor is in the airport, The actor is in the airport, The chef is in the attic, The coach is in the bank, The cowboy is in the barn, The dancer is in the castle, The detective is in the church, The doctor is in the clinic, The engineer is in the factory, The farmer is in the garage, The gardener is in the hallway, The hippie is in the hotel, The inventor is in the kitchen, The judge is in the laboratory, The maid is in the library
+</p>
+          </div>
+        `,
+        q1_html: `
+          <p>Is the actor in the nightclub?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q1_correct: "n",
+        q2_html: `
+          <p>Is the chef in the museum?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q2_correct: "n",
+        q3_html: `
+          <p>Is the coach in the library?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q3_correct: "n",
+        q4_html: `
+          <p>Is the cowboy in the laboratory?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q4_correct: "n",
+        q5_html: `
+          <p>Is the dancer in the kitchen?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q5_correct: "n",
+        q6_html: `
+          <p> Is the detective in the hotel?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q6_correct: "n",
+        q7_html: `
+          <p>Is the doctor in the hallway?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q7_correct: "n",
+        q8_html: `
+          <p>Is the engineer in the garage?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q8_correct: "n",
+        q9_html: `
+          <p> Is the farmer in the factory? </p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q9_correct: "n",
+        q10_html: `
+          <p>Is the gardener in the clinic?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q10_correct: "n",
+      },
+      {
+        section: 7,
+        list_id: 7,
+        list_html: `
+          <div>
+            <p><strong>Memorize the following list (List Strength: Section 2):</strong></p>
+            <p>The inventor is in the kitchen, The judge is in the laboratory, The maid is in the library,
+The musician is in the museum, The pilot is in the nightclub, The pirate is in the office, The pirate is in the office, The pirate is in the office, The pirate is in the office, The pirate is in the office, The pirate is in the office, The queen is in the park, The scientist is in the school, The sheriff is in the prison,The barista is in the mall,
+</p>
+          </div>
+        `,
+        q1_html: `
+          <p>Is the maid in the bank?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q1_correct: "n",
+        q2_html: `
+          <p>Is the musician in the attic?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q2_correct: "n",
+        q3_html: `
+          <p>Is the pilot in the airport?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q3_correct: "n",
+        q4_html: `
+          <p>Is the pirate in the school?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q4_correct: "n",
+        q5_html: `
+          <p>Is the queen in the prison?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q5_correct: "n",
+        q6_html: `
+          <p> Is the scientist in the office?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q6_correct: "n",
+        q7_html: `
+          <p>Is the sheriff in the park?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q7_correct: "n",
+        q8_html: `
+          <p>Is the pirate in the prison?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q8_correct: "n",
+        q9_html: `
+          <p> Is the queen in the school? </p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q9_correct: "n",
+        q10_html: `
+          <p> Is the scientist in the park?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q10_correct: "n",
+      },
+      {
+        section: 8,
+        list_id: 8,
+        list_html: `
+          <div>
+            <p><strong>Memorize the following list (List Strength: Section 3):</strong></p>
+            <p>The queen is in the office, The scientist is in the prison, The sheriff is in the school, The teacher is in the temple, The tourist is in the theater, The player is in the stadium, The spy is in the studio, The teacher is in the theater, The tourist is in the temple, The soldier is in the studio, The soldier is in the studio, The soldier is in the studio, The soldier is in the studio, The soldier is in the studio, The soldier is in the studio
+</p>
+          </div>
+        `,
+        q1_html: `
+          <p>Is the scientist in the park?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q1_correct: "n",
+        q2_html: `
+          <p>Is the sheriff in the office?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q2_correct: "n",
+        q3_html: `
+          <p>Is the teacher in the stadium?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q3_correct: "n",
+        q4_html: `
+          <p>Is the tourist in the studio?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q4_correct: "n",
+        q5_html: `
+          <p>Is the soldier in the temple?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q5_correct: "n",
+        q6_html: `
+          <p>Is the spy in the theater?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q6_correct: "n",
+        q7_html: `
+          <p>Is the teacher in the studio?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q7_correct: "n",
+        q8_html: `
+          <p> Is the tourist in the stadium?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q8_correct: "n",
+        q9_html: `
+          <p> Is the soldier in the theater?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q9_correct: "n",
+        q10_html: `
+          <p> Is the spy in the temple?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q10_correct: "n",
+      },
+      {
+        section: 9,
+        list_id: 9,
+        list_html: `
+          <div>
+            <p><strong>Memorize the following list (Position Effect: Section 1):</strong></p>
+            <p>The detective is in the church, The doctor is in the clinic, The engineer is in the factory, The farmer is in the garage, The gardener is in the hallway, The hippie is in the hotel, The inventor is in the kitchen, The judge is in the laboratory, The maid is in the library, The musician is in the museum, The pilot is in the nightclub, The pirate is in the office, The queen is
+in the park, The scientist is in the prison, The sheriff is in the school, The soldier is in the stadium,The spy is in the studio, The teacher is in the temple, The tourist is in the theater, The accountant is in the beach,
+</p>
+          </div>
+        `,
+        q1_html: `
+          <p>Is the teacher in the temple?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q1_correct: "y",
+        q2_html: `
+          <p>Is the tourist in the theater?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q2_correct: "y",
+        q3_html: `
+          <p> Is the accountant in the beach?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q3_correct: "y",
+        q4_html: `
+          <p>Is the judge in the laboratory?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q4_correct: "y",
+        q5_html: `
+          <p>Is the maid in the library?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q5_correct: "y",
+        q6_html: `
+          <p> Is the musician in the museum?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q6_correct: "y",
+        q7_html: `
+          <p>Is the doctor in the clinic?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q7_correct: "y",
+        q8_html: `
+          <p>Is the detective in the church?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q8_correct: "y",
+        q9_html: `
+          <p> Is the engineer in the factory?</p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q9_correct: "y",
+        q10_html: `
+          <p> Is the pirate in the temple? </p>
+          <p>Press Y for YES, N for NO.</p>
+        `,
+        q10_correct: "n",
+      },
+      // add more sections here if needed
+    ];
+
+    /**********************
+     *  STUDY + QUESTIONS *
+     **********************/
+
+    var study_test_procedure = {
+      timeline: [
+        // show list for 30 seconds
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: jsPsych.timelineVariable("list_html"),
+          choices: "NO_KEYS",
+          trial_duration: 10000,
+          data: {
+            task: "list_view",
+            section: jsPsych.timelineVariable("section"),
+            list_id: jsPsych.timelineVariable("list_id"),
+          },
+        },
+
+        // Q1
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: jsPsych.timelineVariable("q1_html"),
+          choices: ["y", "Y", "n", "N"],
+          response_ends_trial: true,
+          data: {
+            task: "memory_test",
+            section: jsPsych.timelineVariable("section"),
+            list_id: jsPsych.timelineVariable("list_id"),
+            question_number: 1,
+            correct_answer: jsPsych.timelineVariable("q1_correct"),
+          },
+          on_finish: function (data) {
+            var resp = (data.response || "").toLowerCase();
+            var correctAns = (data.correct_answer || "").toLowerCase();
+            data.correct = resp === correctAns;
+          },
+        },
+
+        // Q2
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: jsPsych.timelineVariable("q2_html"),
+          choices: ["y", "Y", "n", "N"],
+          response_ends_trial: true,
+          data: {
+            task: "memory_test",
+            section: jsPsych.timelineVariable("section"),
+            list_id: jsPsych.timelineVariable("list_id"),
+            question_number: 2,
+            correct_answer: jsPsych.timelineVariable("q2_correct"),
+          },
+          on_finish: function (data) {
+            var resp = (data.response || "").toLowerCase();
+            var correctAns = (data.correct_answer || "").toLowerCase();
+            data.correct = resp === correctAns;
+          },
+        },
+
+        // Q3
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: jsPsych.timelineVariable("q3_html"),
+          choices: ["y", "Y", "n", "N"],
+          response_ends_trial: true,
+          data: {
+            task: "memory_test",
+            section: jsPsych.timelineVariable("section"),
+            list_id: jsPsych.timelineVariable("list_id"),
+            question_number: 3,
+            correct_answer: jsPsych.timelineVariable("q3_correct"),
+          },
+          on_finish: function (data) {
+            var resp = (data.response || "").toLowerCase();
+            var correctAns = (data.correct_answer || "").toLowerCase();
+            data.correct = resp === correctAns;
+          },
+        },
+
+        // Q4
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: jsPsych.timelineVariable("q4_html"),
+          choices: ["y", "Y", "n", "N"],
+          response_ends_trial: true,
+          data: {
+            task: "memory_test",
+            section: jsPsych.timelineVariable("section"),
+            list_id: jsPsych.timelineVariable("list_id"),
+            question_number: 4,
+            correct_answer: jsPsych.timelineVariable("q4_correct"),
+          },
+          on_finish: function (data) {
+            var resp = (data.response || "").toLowerCase();
+            var correctAns = (data.correct_answer || "").toLowerCase();
+            data.correct = resp === correctAns;
+          },
+        },
+
+        // Q5
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: jsPsych.timelineVariable("q5_html"),
+          choices: ["y", "Y", "n", "N"],
+          response_ends_trial: true,
+          data: {
+            task: "memory_test",
+            section: jsPsych.timelineVariable("section"),
+            list_id: jsPsych.timelineVariable("list_id"),
+            question_number: 5,
+            correct_answer: jsPsych.timelineVariable("q5_correct"),
+          },
+          on_finish: function (data) {
+            var resp = (data.response || "").toLowerCase();
+            var correctAns = (data.correct_answer || "").toLowerCase();
+            data.correct = resp === correctAns;
+          },
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: jsPsych.timelineVariable("q6_html"),
+          choices: ["y", "Y", "n", "N"],
+          response_ends_trial: true,
+          data: {
+            task: "memory_test",
+            section: jsPsych.timelineVariable("section"),
+            list_id: jsPsych.timelineVariable("list_id"),
+            question_number: 5,
+            correct_answer: jsPsych.timelineVariable("q6_correct"),
+          },
+          on_finish: function (data) {
+            var resp = (data.response || "").toLowerCase();
+            var correctAns = (data.correct_answer || "").toLowerCase();
+            data.correct = resp === correctAns;
+          },
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: jsPsych.timelineVariable("q7_html"),
+          choices: ["y", "Y", "n", "N"],
+          response_ends_trial: true,
+          data: {
+            task: "memory_test",
+            section: jsPsych.timelineVariable("section"),
+            list_id: jsPsych.timelineVariable("list_id"),
+            question_number: 5,
+            correct_answer: jsPsych.timelineVariable("q7_correct"),
+          },
+          on_finish: function (data) {
+            var resp = (data.response || "").toLowerCase();
+            var correctAns = (data.correct_answer || "").toLowerCase();
+            data.correct = resp === correctAns;
+          },
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: jsPsych.timelineVariable("q8_html"),
+          choices: ["y", "Y", "n", "N"],
+          response_ends_trial: true,
+          data: {
+            task: "memory_test",
+            section: jsPsych.timelineVariable("section"),
+            list_id: jsPsych.timelineVariable("list_id"),
+            question_number: 5,
+            correct_answer: jsPsych.timelineVariable("q8_correct"),
+          },
+          on_finish: function (data) {
+            var resp = (data.response || "").toLowerCase();
+            var correctAns = (data.correct_answer || "").toLowerCase();
+            data.correct = resp === correctAns;
+          },
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: jsPsych.timelineVariable("q9_html"),
+          choices: ["y", "Y", "n", "N"],
+          response_ends_trial: true,
+          data: {
+            task: "memory_test",
+            section: jsPsych.timelineVariable("section"),
+            list_id: jsPsych.timelineVariable("list_id"),
+            question_number: 5,
+            correct_answer: jsPsych.timelineVariable("q9_correct"),
+          },
+          on_finish: function (data) {
+            var resp = (data.response || "").toLowerCase();
+            var correctAns = (data.correct_answer || "").toLowerCase();
+            data.correct = resp === correctAns;
+          },
+        },
+        {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: jsPsych.timelineVariable("q10_html"),
+          choices: ["y", "Y", "n", "N"],
+          response_ends_trial: true,
+          data: {
+            task: "memory_test",
+            section: jsPsych.timelineVariable("section"),
+            list_id: jsPsych.timelineVariable("list_id"),
+            question_number: 5,
+            correct_answer: jsPsych.timelineVariable("q10_correct"),
+          },
+          on_finish: function (data) {
+            var resp = (data.response || "").toLowerCase();
+            var correctAns = (data.correct_answer || "").toLowerCase();
+            data.correct = resp === correctAns;
+          },
+        },
+      ],
+      timeline_variables: study_items,
+      randomize_order: false,
+    };
+
+    timeline.push(study_test_procedure);
+
+    /**********************
+     *   DOWNLOAD SCREEN  *
+     **********************/
+
+    var download_trial = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: `
+        <h2>Thank you for participating!</h2>
+        <p>Click the button below to download your results as a CSV file.</p>
+        <p>For sections 1–9: one row with section + accuracy.</p>
+        <p>For sections 6–9: additional rows for each of the 10 questions with question number and correctness.</p>
+      `,
+      choices: ["Download results (.csv)"],
+      on_finish: function () {
+        var DETAILED_SECTIONS = [6, 7, 8, 9];
+
+        // All trials
+        var all_data = jsPsych.data.get().values();
+
+        // Only memory_test trials
+        var test_trials = all_data.filter(function (t) {
+          return t.task === "memory_test";
+        });
+
+        // 1) Compute per-section scores
+        var sectionScores = {}; // {section: {total, correct}}
+        test_trials.forEach(function (t) {
+          var sec = t.section;
+          if (!sectionScores[sec]) {
+            sectionScores[sec] = { total: 0, correct: 0 };
+          }
+          sectionScores[sec].total += 1;
+          if (t.correct) {
+            sectionScores[sec].correct += 1;
+          }
+        });
+
+        // 2) Build CSV rows
+        // Columns: subject_id,section,accuracy,question_number,correct
+        var rows = [];
+        rows.push(
+          [
+            "subject_id",
+            "section",
+            "accuracy",
+            "question_number",
+            "correct",
+          ].join(",")
+        );
+
+        Object.keys(sectionScores).forEach(function (secKey) {
+          var s = sectionScores[secKey];
+          var secNum = Number(secKey);
+          var accuracy = s.total > 0 ? s.correct / s.total : null;
+          var accStr = accuracy == null ? "" : accuracy.toFixed(4);
+
+          // Summary rows for sections 1–9
+          if (secNum >= 1 && secNum <= 9) {
+            rows.push(
+              [
+                subject_id,
+                secNum,
+                accStr,
+                "", // question_number
+                "", // correct
+              ].join(",")
+            );
+          }
+
+          // Detailed rows only for sections 6–9
+          if (DETAILED_SECTIONS.indexOf(secNum) !== -1) {
+            var sec_trials = test_trials.filter(function (t) {
+              return Number(t.section) === secNum;
+            });
+
+            sec_trials.forEach(function (t) {
+              rows.push(
+                [
+                  subject_id,
+                  secNum,
+                  accStr,
+                  t.question_number != null ? t.question_number : "",
+                  t.correct ? 1 : 0, // 1 = correct, 0 = incorrect
+                ].join(",")
+              );
+            });
+          }
+        });
+
+        var csvContent = rows.join("\r\n");
+
+        // 3) Trigger CSV download
+        var blob = new Blob([csvContent], {
+          type: "text/csv;charset=utf-8;",
+        });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "results_" + subject_id + ".csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      },
+    };
+
+    timeline.push(download_trial);
+
+    /**********************
+     *      RUN           *
+     **********************/
+
+    jsPsych.run(timeline);
+  </script>
+</html>
